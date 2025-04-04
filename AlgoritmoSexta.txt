@@ -1,0 +1,194 @@
+Código gráfico tempo:
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Número de rodadas de testes
+num_rodadas = 30
+
+# Dados de exemplo (tempos em segundos)
+tempos_bubble = [219.033, 215.109, 212.729, 212.477, 212.461, 212.352, 211.942, 212.342, 
+                  213.362, 212.169, 212.340, 212.037, 212.072, 212.746, 213.129, 217.803, 
+                  216.720, 216.289, 212.511, 212.521, 213.336, 212.878, 212.159, 212.117, 
+                  212.265, 212.999, 212.179, 212.360, 212.043, 212.104]
+
+tempos_selection = [52.897, 49.994, 34.961, 35.066, 35.194, 35.637, 35.165, 35.702, 
+                    35.210, 35.223, 35.133, 35.425, 35.205, 35.186, 35.884, 36.121, 
+                    36.582, 36.334, 35.209, 35.213, 35.190, 35.152, 35.263, 35.101, 
+                    35.233, 35.071, 35.210, 35.351, 35.079, 35.271]
+
+tempos_insertion = [70.714, 83.320, 82.656, 66.400, 65.732, 67.016, 67.778, 66.089, 
+                    66.958, 67.897, 67.317, 66.855, 66.898, 66.724, 64.824, 65.248, 
+                    65.941, 67.189, 67.358, 67.515, 67.098, 67.565, 65.120, 65.465, 
+                    65.822, 67.849, 67.652, 64.820, 65.898, 67.595]
+
+# Rodadas
+rodadas = np.arange(1, num_rodadas + 1)
+
+# Criar gráfico de linha
+plt.figure(figsize=(10, 6))
+
+# Adicionar linhas para cada algoritmo
+plt.plot(rodadas, tempos_bubble, marker='o', color='green', label='Bubble Sort')
+plt.plot(rodadas, tempos_selection, marker='o', color='red', label='Selection Sort')
+plt.plot(rodadas, tempos_insertion, marker='o', color='blue', label='Insertion Sort')
+
+# Configurações do gráfico
+plt.xlabel('Testes')
+plt.ylabel('Tempo (s)')
+plt.title('Quantidade de Tempo para Ordenar um Vetor de 400k')
+plt.xticks(rodadas)  # Definir os ticks do eixo x para cada rodada
+plt.grid(True)
+plt.legend()
+
+# Ajustar limites do eixo y
+plt.ylim(0, 250)  # Ajuste os limites conforme necessário
+
+# Mostrar gráfico
+plt.show()
+
+
+
+Código gráfico operações: 
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Número de rodadas de testes
+num_rodadas = 30
+
+# Dados de exemplo (quantidade de operações)
+operacoes_bubble = [119980668818, 119943466409, 119964901813, 120001500134, 119949837330, 
+                    120016068180, 119983732207, 119995666441, 120063849785, 120004600827, 
+                    120031328918, 119999191534, 120126134299, 120042713918, 119970380202, 
+                    120022380098, 119900293395, 120015563455, 119999355900, 120016585487, 
+                    119980576608, 120002686550, 120006773741, 119985012154, 120063969479, 
+                    119907069069, 120054367022, 119993716514, 119980808186, 119937025396]
+
+operacoes_selection = [80000199999] * num_rodadas  # Todos os valores são iguais
+operacoes_insertion = [39923236292, 39952503674, 40109487820, 39999163033, 40024423768, 
+                       39889089013, 40025993250, 40054270487, 39974527400, 40008836272, 
+                       39992685843, 40013981345, 39997375762, 40049074923, 40022535136, 
+                       40045496567, 39975790666, 40043785965, 40023939847, 39931534003, 
+                       40026383171, 39972765282, 39942003596, 39979414166, 39964350613, 
+                       39937226430, 40013932361, 39955309898, 40069211446, 40032264095]
+
+# Rodadas
+rodadas = np.arange(1, num_rodadas + 1)
+
+# Criar gráfico de linha
+plt.figure(figsize=(10, 6))
+
+# Adicionar linhas para cada algoritmo
+plt.plot(rodadas, operacoes_bubble, marker='o', color='green', label='Bubble Sort')
+plt.plot(rodadas, operacoes_selection, marker='o', color='red', label='Selection Sort')
+plt.plot(rodadas, operacoes_insertion, marker='o', color='blue', label='Insertion Sort')
+
+# Configurações do gráfico
+plt.xlabel('Testes')
+plt.ylabel('Quantidade de Operações')
+plt.title('Quantidade de Operações dos Algoritmos de Ordenação para um Vetor de 400k')
+plt.xticks(rodadas)  # Definir os ticks do eixo x para cada rodada
+plt.grid(True)
+plt.legend()
+
+# Mostrar gráfico
+plt.show()
+
+Código para testar o vetor de 1.6M:
+
+import java.util.Scanner;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public class TesteOrdenacao {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t;
+
+        System.out.print("Escolha o tamanho do vetor: ");
+        t = scanner.nextInt();
+
+        // Criação de um ExecutorService para executar tarefas em paralelo
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        // Medir o tempo total de execução
+        long iniO = System.currentTimeMillis();
+
+        // Criação de tarefas para cada algoritmo de ordenação
+        Callable<Result> bubbleSortTask = () -> {
+            Vetor v = new Vetor(t); // Instanciar Vetor aqui
+            v.preencheVetor();
+            long ini = System.currentTimeMillis();
+            v.bubbleSort();
+            long tempo = System.currentTimeMillis() - ini;
+            long operacoes = v.getOperacoesBubble();
+            return new Result(tempo, operacoes);
+        };
+
+        Callable<Result> selectionSortTask = () -> {
+            Vetor v = new Vetor(t); // Instanciar Vetor aqui
+            v.preencheVetor();
+            long ini = System.currentTimeMillis();
+            v.selectionSort();
+            long tempo = System.currentTimeMillis() - ini;
+            long operacoes = v.getOperacoesSelection();
+            return new Result(tempo, operacoes);
+        };
+
+        Callable<Result> insertionSortTask = () -> {
+            Vetor v = new Vetor(t); // Instanciar Vetor aqui
+            v.preencheVetor();
+            long ini = System.currentTimeMillis();
+            v.insertionSort();
+            long tempo = System.currentTimeMillis() - ini;
+            long operacoes = v.getOperacoesInsertion();
+            return new Result(tempo, operacoes);
+        };
+
+        try {
+            // Submeter as tarefas ao executor
+            Future<Result> bubbleSortFuture = executor.submit(bubbleSortTask);
+            Future<Result> selectionSortFuture = executor.submit(selectionSortTask);
+            Future<Result> insertionSortFuture = executor.submit(insertionSortTask);
+
+            // Obter os resultados
+            Result bubbleSortResult = bubbleSortFuture.get();
+            Result selectionSortResult = selectionSortFuture.get();
+            Result insertionSortResult = insertionSortFuture.get();
+
+            // Exibir tempos e contagem de operações
+            System.out.println("Tempo do Bubble Sort: " + bubbleSortResult.tempo + " ms | Operações: " + bubbleSortResult.operacoes);
+            System.out.println("Tempo do Selection Sort: " + selectionSortResult.tempo + " ms | Operações: " + selectionSortResult.operacoes);
+            System.out.println("Tempo do Insertion Sort: " + insertionSortResult.tempo + " ms | Operações: " + insertionSortResult.operacoes);
+            System.out.println("----------------------------------------------");
+
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        } finally {
+            executor.shutdown(); // Fechar o executor
+        }
+
+        long fimO = System.currentTimeMillis();
+        // Exibir o tempo total de execução
+        System.out.println("O tempo total da operação foi de " + (fimO - iniO) + " milissegundos");
+
+        scanner.close();
+    }
+
+    // Classe para armazenar o resultado de cada tarefa
+    static class Result {
+        long tempo;
+        long operacoes;
+
+        Result(long tempo, long operacoes) {
+            this.tempo = tempo;
+            this.operacoes = operacoes;
+        }
+    }
+}
+
